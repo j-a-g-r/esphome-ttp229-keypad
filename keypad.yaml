@@ -1,0 +1,38 @@
+esphome:
+  name: keypad_custom
+  platform: ESP8266
+  board: nodemcu
+  includes:
+    - ttpkeypad.h
+  libraries:
+    - "ErriezTTP229"
+
+wifi:
+  ssid: "..."
+  password: "..."
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Keypad Custom Fallback Hotspot"
+    password: "..."
+
+captive_portal:
+
+# Enable logging
+logger:
+sensor:
+- platform: custom
+  lambda: |-
+    auto my_sensor = new ttpkeypad();
+    App.register_component(my_sensor);
+    return {my_sensor};
+
+  sensors:
+    name: "ttpkeypad Sensor"
+
+# Enable Home Assistant API
+api:
+  password: "..."
+
+ota:
+  password: "..."
